@@ -32,6 +32,7 @@ $ yarn run test:cov
 
 ## Decisions
 - sqlite is used as a database because it is easy to set up and use. More than enough for the business needs of this project.
+Also, it is a single file sqlite database, because that was enough for the requirements. No need to overengineer things, right?
 - Kysely is used to access the database because it provides a typesafe way to interact with the database. Also, I do not like opinionated ORMs and I want to be able design my own ORM-like structure if it comes to that point in the future and this is actually quite simple using query builders.
 - Fastify is used instead of express because who does not like faster response times?
 - Biome is used instead of eslint+prettier because it is a more modern and complete tool and works way faster.
@@ -45,4 +46,5 @@ Also, it is way easier to read and understand what the project does.
 - The hybrid approach of using NestJS' modular structure and DDD's way of thinking is applied to individual sub-parts of modules.
 To be more exact: application layer lies in controller and dto files, domain layer lies in entity and service, and infrastructure layer lies in a single module that exports the injectable Kysely instance.
 I did not want to crate a repository layer because it is not needed in this project. The service layer is enough to handle the business logic.
-
+- All Data Transfer Objests are named *Request or *Response to make it clear what they are used for. It is more understandable than using the DTO suffix in my opinion.
+- Pino is used as a logger because it is fast, async and json formatted already. So, why not?.

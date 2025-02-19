@@ -1,5 +1,5 @@
 import { Kysely } from "kysely";
-import { UserTable } from "../../user/user.table";
+import { UserTable } from "../user/user.table";
 
 interface Tables {
 	user: UserTable;

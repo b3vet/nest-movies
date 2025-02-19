@@ -20,12 +20,9 @@ export class GlobalErrorFilter implements ExceptionFilter {
 				? error.getStatus()
 				: HttpStatus.INTERNAL_SERVER_ERROR;
 
-		console.error(error);
-
 		const responseBody = {
 			path: httpAdapter.getRequestUrl(ctx.getRequest()),
 			message: error.message ?? "Unknown error?",
-			stackTrace: error.stack,
 		};
 
 		httpAdapter.reply(ctx.getResponse(), responseBody, httpStatus);

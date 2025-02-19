@@ -1,9 +1,18 @@
 import { Module } from "@nestjs/common";
-import { DatabaseModule } from "./infra/database/database.module";
+import { LoggerModule } from "nestjs-pino";
+import { AppController } from "./app.controller";
+import { AuthModule } from "./auth/auth.module";
+import { DatabaseModule } from "./database/database.module";
+import { UserModule } from "./user/user.module";
 
 @Module({
-	imports: [DatabaseModule.forRoot({})],
-	controllers: [],
+	imports: [
+		LoggerModule.forRoot(),
+		DatabaseModule.forRoot({}),
+		AuthModule,
+		UserModule,
+	],
+	controllers: [AppController],
 	providers: [],
 })
 export class AppModule {}
