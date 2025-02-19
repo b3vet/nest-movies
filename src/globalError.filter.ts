@@ -2,6 +2,7 @@ import {
 	ArgumentsHost,
 	Catch,
 	ExceptionFilter,
+	HttpException,
 	HttpStatus,
 } from "@nestjs/common";
 import { HttpAdapterHost } from "@nestjs/core";
@@ -14,13 +15,17 @@ export class GlobalErrorFilter implements ExceptionFilter {
 		const ctx = host.switchToHttp();
 		const { httpAdapter } = this.httpAdapterHost;
 
-		const httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+		const httpStatus =
+			error instanceof HttpException
+				? error.getStatus()
+				: HttpStatus.INTERNAL_SERVER_ERROR;
 
 		console.error(error);
 
 		const responseBody = {
 			path: httpAdapter.getRequestUrl(ctx.getRequest()),
 			message: error.message ?? "Unknown error?",
+			stackTrace: error.stack,
 		};
 
 		httpAdapter.reply(ctx.getResponse(), responseBody, httpStatus);

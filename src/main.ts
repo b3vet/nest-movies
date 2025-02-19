@@ -1,4 +1,4 @@
-import { Logger } from "@nestjs/common";
+import { Logger, ValidationPipe } from "@nestjs/common";
 import { HttpAdapterHost, NestFactory } from "@nestjs/core";
 import {
 	FastifyAdapter,
@@ -17,6 +17,7 @@ import { GlobalErrorFilter } from "./globalError.filter";
 
 	const httpAdapterHost = app.get(HttpAdapterHost);
 	app.useGlobalFilters(new GlobalErrorFilter(httpAdapterHost));
+	app.useGlobalPipes(new ValidationPipe());
 
 	const logger = app.get(Logger);
 
