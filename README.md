@@ -1,5 +1,5 @@
 ## Description
-A simple REST API.
+A simple REST API template basically. Perfect for starting a new project. It has a simple CRUD operation for a single entity. It is built with Fastify, Kysely, Vitest, Biome, SWC and Typescript.
 
 ## Project setup
 
@@ -21,16 +21,14 @@ $ yarn build && yarn prod
 
 ```bash
 # unit tests
-$ yarn run test
-
-# e2e tests
-$ yarn run test:e2e
+$ yarn test
 
 # test coverage
-$ yarn run test:cov
+$ yarn test:cov
 ```
 
 ## Decisions
+- Node 23 and Nest 11 is used in the project as they were the latest versions I am used to.
 - sqlite is used as a database because it is easy to set up and use. More than enough for the business needs of this project.
 Also, it is a single file sqlite database, because that was enough for the requirements. No need to overengineer things, right?
 - Kysely is used to access the database because it provides a typesafe way to interact with the database. Also, I do not like opinionated ORMs and I want to be able design my own ORM-like structure if it comes to that point in the future and this is actually quite simple using query builders.

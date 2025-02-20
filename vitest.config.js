@@ -14,6 +14,7 @@ export default defineConfig({
 				"**/*table.ts",
 				"**/main.ts",
 				"**/*moduleDefinition.ts",
+				"**/*decorator.ts",
 			],
 		},
 	},

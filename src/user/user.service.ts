@@ -14,6 +14,7 @@ export class UserService {
 		const userToSave: NewUser = {
 			username: input.username,
 			password: passwordHash,
+			role: "customer",
 			age: input.age,
 			created_at: Date.now(),
 		};

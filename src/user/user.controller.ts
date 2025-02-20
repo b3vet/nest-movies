@@ -1,10 +1,9 @@
-import { Controller, Get, UseGuards } from "@nestjs/common";
+import { Controller, Get } from "@nestjs/common";
 import { ApiBearerAuth } from "@nestjs/swagger";
-import { AuthGuard } from "../auth/auth.guard";
+import { Roles } from "../auth/roles.decorator";
 import { UserService } from "./user.service";
 
 @Controller("user")
-@UseGuards(AuthGuard)
 @ApiBearerAuth("token")
 export class UserController {
 	constructor(private readonly userService: UserService) {}
@@ -13,6 +12,14 @@ export class UserController {
 	async guardTest() {
 		return {
 			message: "You are authenticated",
+		};
+	}
+
+	@Roles(["manager"])
+	@Get("/role-test")
+	async roleTest() {
+		return {
+			message: "You are a manager! WOW!",
 		};
 	}
 }

@@ -5,6 +5,7 @@ import {
 } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import bcrypt from "bcrypt";
+import { User } from "../user/user.entity";
 import { UserService } from "../user/user.service";
 import {
 	LoginRequest,
@@ -23,13 +24,8 @@ export class AuthService {
 	async register(input: RegisterRequest): Promise<RegisterResponse> {
 		const user = await this.userService.create(input);
 
-		const token = await this.jwtService.signAsync({
-			sub: user.id,
-			username: user.username,
-		});
-
 		return {
-			token,
+			token: await this.createToken(user),
 		};
 	}
 
@@ -49,14 +45,17 @@ export class AuthService {
 			throw new BadRequestException("Invalid password");
 		}
 
-		const token = await this.jwtService.signAsync({
+		return {
+			token: await this.createToken(user),
+		};
+	}
+
+	private async createToken(user: User): Promise<string> {
+		return this.jwtService.signAsync({
 			sub: user.id,
 			username: user.username,
+			role: user.role,
 		});
-
-		return {
-			token,
-		};
 	}
 
 	private async comparePassword(

@@ -1,4 +1,5 @@
 import { ExecutionContext, UnauthorizedException } from "@nestjs/common";
+import { Reflector } from "@nestjs/core";
 import { JwtService } from "@nestjs/jwt";
 import { FastifyRequest } from "fastify";
 import { beforeEach, describe, expect, it, vi } from "vitest";
@@ -8,6 +9,9 @@ import { AuthGuard } from "../auth.guard";
 const mockJwtService = {
 	verifyAsync: vi.fn(),
 };
+const mockReflector = {
+	get: vi.fn(),
+};
 
 describe("AuthGuard", () => {
 	let authGuard: AuthGuard;
@@ -15,9 +19,13 @@ describe("AuthGuard", () => {
 	let mockRequest: Partial<FastifyRequest>;
 
 	beforeEach(() => {
-		authGuard = new AuthGuard(mockJwtService as unknown as JwtService);
+		authGuard = new AuthGuard(
+			mockJwtService as unknown as JwtService,
+			mockReflector as unknown as Reflector,
+		);
 		mockRequest = { headers: {} };
 		mockContext = {
+			getHandler: () => {},
 			switchToHttp: () => ({ getRequest: () => mockRequest }),
 		} as unknown as ExecutionContext;
 	});
@@ -29,6 +37,7 @@ describe("AuthGuard", () => {
 			id: "123",
 			username: "testuser",
 		});
+		mockReflector.get.mockReturnValue(false);
 
 		// when
 		const result = await authGuard.canActivate(mockContext);
@@ -46,6 +55,7 @@ describe("AuthGuard", () => {
 
 	it("should throw UnauthorizedException if no token is provided", async () => {
 		// given, when, then
+		mockReflector.get.mockReturnValue(false);
 		await expect(authGuard.canActivate(mockContext)).rejects.toThrow(
 			UnauthorizedException,
 		);
@@ -55,6 +65,7 @@ describe("AuthGuard", () => {
 		// given
 		mockRequest.headers.authorization = "Bearer invalidToken";
 		mockJwtService.verifyAsync.mockRejectedValue(new Error("Invalid token"));
+		mockReflector.get.mockReturnValue(false);
 
 		// when, then
 		await expect(authGuard.canActivate(mockContext)).rejects.toThrow(
@@ -65,10 +76,22 @@ describe("AuthGuard", () => {
 	it("should return undefined if authorization header is malformed", async () => {
 		// given
 		mockRequest.headers.authorization = "InvalidHeader";
+		mockReflector.get.mockReturnValue(false);
 
 		// when, then
 		await expect(authGuard.canActivate(mockContext)).rejects.toThrow(
 			UnauthorizedException,
 		);
+	});
+
+	it("should return true for public route", async () => {
+		// given
+		mockReflector.get.mockReturnValue(true);
+
+		// when
+		const result = await authGuard.canActivate(mockContext);
+
+		// then
+		expect(result).toBe(true);
 	});
 });

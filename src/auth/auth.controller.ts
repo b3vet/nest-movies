@@ -7,6 +7,7 @@ import {
 	RegisterResponse,
 } from "./auth.dto";
 import { AuthService } from "./auth.service";
+import { Public } from "./public.decorator";
 
 @Controller("auth")
 export class AuthController {
@@ -20,6 +21,7 @@ export class AuthController {
 	})
 	@HttpCode(HttpStatus.CREATED)
 	@Post("/register")
+	@Public()
 	async register(@Body() registerRequest: RegisterRequest) {
 		return this.authService.register(registerRequest);
 	}
@@ -32,6 +34,7 @@ export class AuthController {
 	})
 	@HttpCode(HttpStatus.OK)
 	@Post("/login")
+	@Public()
 	async login(@Body() loginRequest: LoginRequest) {
 		return this.authService.login(loginRequest);
 	}

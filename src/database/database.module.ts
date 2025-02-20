@@ -28,9 +28,29 @@ import { ConfigurableDatabaseModule } from "./database.moduleDefinition";
 					.addColumn("username", "text", (column) => column.notNull())
 					.addColumn("password", "text", (column) => column.notNull())
 					.addColumn("age", "integer", (column) => column.notNull())
+					.addColumn("role", "text", (column) => column.notNull())
 					.addColumn("created_at", "integer", (column) => column.notNull())
 					.addColumn("updated_at", "integer")
 					.execute();
+
+				db.selectFrom("user")
+					.selectAll()
+					.where("username", "=", "admin")
+					.executeTakeFirst()
+					.then((user) => {
+						if (!user) {
+							db.insertInto("user")
+								.values({
+									username: "admin",
+									password:
+										"$2b$10$OLDbI6A1DwjcOTuSzb6DiOC1HUXoVg.Xdys9C37mWUJGTxUqUojb2",
+									role: "manager",
+									age: 18,
+									created_at: Date.now(),
+								})
+								.execute();
+						}
+					});
 
 				return db;
 			},
