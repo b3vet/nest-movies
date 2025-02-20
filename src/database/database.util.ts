@@ -35,6 +35,18 @@ export function seedDatabase(db: Database): void {
 		.addColumn("updated_at", "integer")
 		.execute();
 
+	db.schema
+		.createTable("ticket")
+		.ifNotExists()
+		.addColumn("id", "integer", (column) => column.primaryKey().autoIncrement())
+		.addColumn("session_id", "integer", (column) => column.notNull())
+		.addColumn("user_id", "integer", (column) => column.notNull())
+		.addColumn("seat_number", "integer", (column) => column.notNull())
+		.addColumn("price", "integer", (column) => column.notNull())
+		.addColumn("created_at", "integer", (column) => column.notNull())
+		.addColumn("updated_at", "integer")
+		.execute();
+
 	db.selectFrom("user")
 		.selectAll()
 		.where("username", "=", "admin")

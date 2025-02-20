@@ -60,7 +60,6 @@ export class UpdateMovieRequest {
 }
 
 export class MovieResponse {
-	@IsNumber()
 	@ApiProperty({
 		description: "Movie ID",
 		example: 1,
@@ -68,7 +67,6 @@ export class MovieResponse {
 	})
 	id: number;
 
-	@IsString()
 	@ApiProperty({
 		description: "Movie name",
 		example: "The Matrix",
@@ -76,7 +74,6 @@ export class MovieResponse {
 	})
 	name: string;
 
-	@IsNumber()
 	@ApiProperty({
 		description: "Age restriction",
 		example: 18,

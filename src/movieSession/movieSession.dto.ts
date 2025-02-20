@@ -19,10 +19,26 @@ export class CreateMovieWithSessionsRequest {
 }
 
 export class MoviesWithSessionsResponse {
+	@ApiProperty({
+		description: "Movie details",
+		type: MovieResponse,
+		required: true,
+	})
 	movie: MovieResponse;
+
+	@ApiProperty({
+		description: "Session details",
+		type: [SessionResponse],
+		required: true,
+	})
 	sessions: SessionResponse[];
 }
 
 export class GetAllAvailableMoviesWithSessionsResponse {
+	@ApiProperty({
+		description: "Movies result",
+		type: [MoviesWithSessionsResponse],
+		required: true,
+	})
 	movies: MoviesWithSessionsResponse[];
 }

@@ -91,7 +91,6 @@ export class UpdateSessionRequest {
 }
 
 export class SessionResponse {
-	@IsNumber()
 	@ApiProperty({
 		description: "Slot ID",
 		example: 1,
@@ -99,7 +98,6 @@ export class SessionResponse {
 	})
 	id: number;
 
-	@IsDateString()
 	@ApiProperty({
 		description: "Session date",
 		example: "2021-10-10",
@@ -107,9 +105,6 @@ export class SessionResponse {
 	})
 	date: string;
 
-	@IsNumber()
-	@Min(1)
-	@Max(100)
 	@ApiProperty({
 		description: "Room number",
 		example: 1,
@@ -119,8 +114,6 @@ export class SessionResponse {
 	})
 	room: number;
 
-	@IsString()
-	@IsIn(slots)
 	@ApiProperty({
 		description: "Session slot",
 		example: "10:00-12:00",

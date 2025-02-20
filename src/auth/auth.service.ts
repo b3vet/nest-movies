@@ -13,6 +13,7 @@ import {
 	RegisterRequest,
 	RegisterResponse,
 } from "./auth.dto";
+import { HeaderUser } from "./auth.type";
 
 @Injectable()
 export class AuthService {
@@ -55,7 +56,7 @@ export class AuthService {
 			sub: user.id,
 			username: user.username,
 			role: user.role,
-		});
+		} satisfies HeaderUser);
 	}
 
 	private async comparePassword(
