@@ -1,13 +1,20 @@
-## Description
-A simple REST API template basically. Perfect for starting a new project. It has a simple CRUD operation for a single entity. It is built with Fastify, Kysely, Vitest, Biome, SWC and Typescript.
+## Berkeflix - A modern NestJS app
+
+--- 
+
+A simple REST API template basically. Perfect for starting a new project. Has lots of cool features.
 
 ## Project setup
+
+---
 
 ```bash
 $ yarn
 ```
 
 ## Compile and run the project
+
+---
 
 ```bash
 # development mode
@@ -19,6 +26,8 @@ $ yarn build && yarn prod
 
 ## Run tests
 
+---
+
 ```bash
 # unit tests
 $ yarn test
@@ -28,6 +37,9 @@ $ yarn test:cov
 ```
 
 ## Decisions
+
+---
+
 - Node 23 and Nest 11 is used in the project as they were the latest versions I am used to.
 - sqlite is used as a database because it is easy to set up and use. More than enough for the business needs of this project.
 Also, it is a single file sqlite database, because that was enough for the requirements. No need to overengineer things, right?
@@ -46,3 +58,10 @@ To be more exact: application layer lies in controller and dto files, domain lay
 I did not want to crate a repository layer because it is not needed in this project. The service layer is enough to handle the business logic.
 - All Data Transfer Objests are named *Request or *Response to make it clear what they are used for. It is more understandable than using the DTO suffix in my opinion.
 - Pino is used as a logger because it is fast, async and json formatted already. So, why not?.
+
+## Deployment
+- I am in love with Coolify. Get a simple VPS, connect the repository, create a Dockerfile for the builds and deployments, and you are good to go.
+Everything being this simple and useful about Coolify is perfect. I am using it for my personal projects and I am very happy with it.
+Just before thinking about deploying the project, I thought about getting a VM from some free tier cloud provider and deploying the project there using Github actions.
+Then after going through Microsoft registeration flow disaster, I remembered Coolify and decided to use it. It is way easier and faster.
+You can even try it: [here](http://b4wg8k8w4sw04ww8owco4wc8.82.29.177.217.sslip.io/docs).
