@@ -32,9 +32,6 @@ COPY --from=builder /app/.yarnrc.yml ./.yarnrc.yml
 # Install only production dependencies
 RUN corepack enable && corepack prepare yarn@4.6.0 --activate && yarn install
 
-# Copy the environment file
-COPY .env.local .env
-
 # Expose the port the app runs on
 EXPOSE 3434
 
