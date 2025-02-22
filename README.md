@@ -82,7 +82,7 @@ You can even try it: [here](http://b4wg8k8w4sw04ww8owco4wc8.82.29.177.217.sslip.
 
 - I would add a repository layer to handle the database operations. This way, the service layer would be more clean and would only contain business logic.
 - I would add more tests to cover all the modules.
-- I would probably use a real database like Postgres (maybe with a multi-cluster architecture if you are serious enough).
+- I would probably use an online and much more scalable database like Postgres (maybe with a multi-cluster architecture if you are serious enough).
   - I would add a migration mechanism to handle the database schema changes (kysely provides a nice and clean api for this).
 - I would add a caching layer to cache the responses of the API. (No need for fancy solutions, a simple Redis would be enough, or even a simpler [in-memory cache](https://www.npmjs.com/package/typescript-memoize) on service layer)
 - I would decouple the modules by using a solution like RabbitMQ or even a simpler CQRS setup. I did not do it here because it would be a bit overkill for this project.
