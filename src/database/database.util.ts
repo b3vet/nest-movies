@@ -47,6 +47,17 @@ export function seedDatabase(db: Database): void {
 		.addColumn("updated_at", "integer")
 		.execute();
 
+	db.schema
+		.createTable("watch")
+		.ifNotExists()
+		.addColumn("id", "integer", (column) => column.primaryKey().autoIncrement())
+		.addColumn("user_id", "integer", (column) => column.notNull())
+		.addColumn("watched_at", "integer", (column) => column.notNull())
+		.addColumn("session_id", "integer", (column) => column.notNull())
+		.addColumn("created_at", "integer", (column) => column.notNull())
+		.addColumn("updated_at", "integer")
+		.execute();
+
 	db.selectFrom("user")
 		.selectAll()
 		.where("username", "=", "admin")

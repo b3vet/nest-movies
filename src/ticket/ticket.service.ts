@@ -7,7 +7,6 @@ import { sql } from "kysely";
 import { jsonObjectFrom } from "kysely/helpers/sqlite";
 import { throwIfFalsy } from "../common/util";
 import { Database } from "../database/database";
-import { MovieService } from "../movie/movie.service";
 import { SessionService } from "../session/session.service";
 import { BuyTicketRequest, TicketResponse } from "./ticket.dto";
 import { NewTicket, Ticket } from "./ticket.entity";
@@ -26,7 +25,7 @@ export class TicketService {
 
 		throwIfFalsy(session, new NotFoundException("Session not found"));
 
-		const userTicket = await this.getTicketBySessionAndUserId(
+		const userTicket = await this.getBySessionAndUserId(
 			input.session_id,
 			userId,
 		);
@@ -36,7 +35,7 @@ export class TicketService {
 			new BadRequestException("User already has a ticket for this session"),
 		);
 
-		const ticket = await this.getTicketBySessionAndSeat(
+		const ticket = await this.getBySessionAndSeat(
 			input.session_id,
 			input.seat_number,
 		);
@@ -113,7 +112,7 @@ export class TicketService {
 				jsonObjectFrom(
 					eb
 						.selectFrom("movie")
-						.select((eb) => ["movie.id", "movie.name", "movie.age_restriction"])
+						.select(["movie.id", "movie.name", "movie.age_restriction"])
 						.where("movie.id", "=", eb.ref("session.movie_id")),
 				).as("movie"),
 			])
@@ -123,7 +122,20 @@ export class TicketService {
 		return tickets.map(this.parseTicket);
 	}
 
-	private async getTicketBySessionAndSeat(
+	async getByMovieAndUserId(
+		movieId: number,
+		userId: number,
+	): Promise<Ticket | undefined> {
+		return this.db
+			.selectFrom("ticket")
+			.selectAll()
+			.leftJoin("session", "ticket.session_id", "session.id")
+			.where("ticket.user_id", "=", userId)
+			.where("session.movie_id", "=", movieId)
+			.executeTakeFirst();
+	}
+
+	private async getBySessionAndSeat(
 		sessionId: number,
 		seatNumber: number,
 	): Promise<Ticket | undefined> {
@@ -135,7 +147,7 @@ export class TicketService {
 			.executeTakeFirst();
 	}
 
-	private async getTicketBySessionAndUserId(
+	private async getBySessionAndUserId(
 		sessionId: number,
 		userId: number,
 	): Promise<Ticket | undefined> {

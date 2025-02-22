@@ -6,6 +6,7 @@ import { DatabaseModule } from "./database/database.module";
 import { MovieSessionModule } from "./movieSession/movieSession.module";
 import { TicketModule } from "./ticket/ticket.module";
 import { UserModule } from "./user/user.module";
+import { WatchModule } from "./watch/watch.module";
 
 @Module({
 	imports: [
@@ -15,6 +16,7 @@ import { UserModule } from "./user/user.module";
 		UserModule,
 		MovieSessionModule,
 		TicketModule,
+		WatchModule,
 	],
 	controllers: [AppController],
 	providers: [],
