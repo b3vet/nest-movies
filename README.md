@@ -59,9 +59,7 @@ I did not want to crate a repository layer because it is not needed in this proj
 - All Data Transfer Objects are named *Request or *Response to make it clear what they are used for. It is more understandable than using the DTO suffix in my opinion.
 - Pino is used as a logger because it is fast, async and json formatted already. So, why not?.
 - Tests were not added to all modules because of time constraints. However, test examples can be found in AuthModule and WatchModule.
-The rest of the modules' tests would be quite similar to these examples. If I had more time, I would add tests to all modules.
-- Adding all the nice to haves (such as movie filtering, movie addition validations, bulk endpoints, etc.) would be cool, but again, time constraints..
-- Adding movie and session modification features would be cool, but again, time constraints..
+The rest of the modules' tests would be quite similar to these examples. If I could create more time, I would add tests to all modules.
 
 ## Deployment
 
